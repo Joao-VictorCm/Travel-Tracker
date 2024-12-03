@@ -24,11 +24,9 @@ const db = new pg.Client({
 
 db.connect()
 
+let countries_visited = {}
 
-let countries_visited = []
-
-
-const result =  db.query("SELECT * FROM visited_countries", (err, res)=>{
+db.query("SELECT * FROM visited_countries", (err, res)=>{
   if(err){
     console.error("Error executing query", err.stack)
   }else{
@@ -36,10 +34,14 @@ const result =  db.query("SELECT * FROM visited_countries", (err, res)=>{
   }
 })
 
-console.log(result)
+
+console.log(countries_visited.countries_code)
 
 app.get("/", async (req, res) => {
-  res.render("index.ejs", {countries: result})
+
+
+  let total = 0
+  res.render("index.ejs", {countries: countries_visited})
 });
 
 app.listen(port, () => {
