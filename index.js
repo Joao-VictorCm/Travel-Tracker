@@ -24,17 +24,6 @@ const db = new pg.Client({
 
 db.connect()
 
-let countries_visited = {}
-
-db.query("SELECT * FROM visited_countries", (err, res)=>{
-  if(err){
-    console.error("Error executing query", err.stack)
-  }else{
-    countries_visited = res.rows
-  }
-})
- 
-
 app.get("/", async (req, res) => {
 const result = await db.query ("SELECT country_code FROM visited_countries")
 let countries = []
