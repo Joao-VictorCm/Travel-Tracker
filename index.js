@@ -33,15 +33,16 @@ db.query("SELECT * FROM visited_countries", (err, res)=>{
     countries_visited = res.rows
   }
 })
-
-
-console.log(countries_visited.countries_code)
+ 
 
 app.get("/", async (req, res) => {
-
-
-  let total = 0
-  res.render("index.ejs", {countries: countries_visited})
+const result = await db.query ("SELECT country_code FROM visited_countries")
+let countries = []
+result.rows.forEach((country) =>{
+  countries.push(country.country_code)
+})
+console.log(result.rows);
+res.render("index.ejs", {countries: countries, total: countries.length})
 });
 
 app.listen(port, () => {
